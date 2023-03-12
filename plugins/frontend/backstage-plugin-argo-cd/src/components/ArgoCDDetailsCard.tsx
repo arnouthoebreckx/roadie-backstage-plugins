@@ -103,6 +103,22 @@ const OverviewComponent = ({
       ),
     },
     {
+      title: 'App Version',
+      // ALLOW LABEL VALUE TO BE CUSTOMIZABLE
+      // DO NOT SHOW COLUMN IF VALUE DOES NOT EXIST
+      render: (row: any): React.ReactNode => (
+        <State
+          value={row.resources[0].metadata.labels['app.kubernetes.io/version']}
+        />
+      ),
+    },
+    {
+      title: 'Chart Version',
+      render: (row: any): React.ReactNode => (
+        <State value={row.resources[0].metadata.labels['helm.sh/chart']} />
+      ),
+    },
+    {
       title: 'Last Synced',
       render: (row: any): React.ReactNode =>
         row.status.operationState
@@ -194,6 +210,7 @@ const ArgoCDDetails = ({
         />
       );
     }
+
     const wrapped: ArgoCDAppList = {
       items: [value as ArgoCDAppDetails],
     };

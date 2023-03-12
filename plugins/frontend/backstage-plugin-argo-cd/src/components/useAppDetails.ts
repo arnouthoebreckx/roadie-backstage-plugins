@@ -18,6 +18,10 @@ import { configApiRef, errorApiRef, useApi } from '@backstage/core-plugin-api';
 import { useAsyncRetry } from 'react-use';
 import { argoCDApiRef } from '../api';
 
+// const parseManagedResources = ({
+//   apiOut: ArgoCDAppManagedResourceDetails
+// })
+
 export const useAppDetails = ({
   appName,
   appSelector,
@@ -39,7 +43,17 @@ export const useAppDetails = ({
     );
     try {
       if (!argoSearchMethod && appName) {
-        return await api.getAppDetails({ url, appName });
+        const apiAppDetails = api.getAppDetails({ url, appName });
+        const apiResources = async () => {
+          const apiResult = api.getAppManagedResourcesDetails({ url, appName });
+          return (await apiResult).items.map(item =>
+            JSON.parse(item.liveState),
+          );
+        };
+        // Call function to parse items into valid Object (Only need metadata)
+        (await apiAppDetails).resources = await apiResources();
+        console.log(apiAppDetails);
+        return apiAppDetails;
       }
       if (argoSearchMethod && appName) {
         const kubeInfo = await api.serviceLocatorUrl({

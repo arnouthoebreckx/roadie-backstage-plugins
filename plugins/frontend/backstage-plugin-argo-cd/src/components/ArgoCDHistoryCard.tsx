@@ -190,7 +190,7 @@ const ArgoCDHistory = ({ entity }: { entity: Entity }) => {
       return <HistoryTable data={wrapped} retry={retry} />;
     }
     const wrapped: ArgoCDAppList = {
-      items: [value as ArgoCDAppDetails],
+      items: [value as unknown as ArgoCDAppDetails],
     };
     return <HistoryTable data={wrapped} retry={retry} />;
   }

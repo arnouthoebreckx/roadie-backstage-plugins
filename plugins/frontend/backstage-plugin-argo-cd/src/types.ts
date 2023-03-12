@@ -37,6 +37,7 @@ export const argoCDAppDetails = t.type({
       t.undefined,
     ]),
   }),
+  resources: t.union([t.unknown, t.undefined]),
 });
 
 export type ArgoCDAppDetails = t.TypeOf<typeof argoCDAppDetails>;
@@ -46,3 +47,16 @@ export const argoCDAppList = t.type({
 });
 
 export type ArgoCDAppList = t.TypeOf<typeof argoCDAppList>;
+
+export const argoCDAppManagedResourceDetails = t.type({
+  items: t.array(
+    t.type({
+      name: t.string,
+      liveState: t.string,
+    }),
+  ),
+});
+
+export type ArgoCDAppManagedResourceDetails = t.TypeOf<
+  typeof argoCDAppManagedResourceDetails
+>;
